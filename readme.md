@@ -59,7 +59,7 @@ See `example.html` for an example of usage in a client side application.
 
 (The MIT License)
 
-Copyright (c) 2011 Applied Data Consultants
+Copyright (c) 2012 Applied Data Consultants
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
