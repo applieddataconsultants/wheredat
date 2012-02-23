@@ -1,4 +1,4 @@
-!function _geocad(){
+!function _wheredat(){
    var BING_LOC_URL = 'https://dev.virtualearth.net/REST/v1/Locations/'
 
    function param (name) {
@@ -36,7 +36,7 @@
    function jsonp (url) {
       var script = document.createElement('script')
       var q = /\?/.test(url) ? '&' : '?'
-      script.src = BING_LOC_URL + url + q + 'key=' + BING_KEY + '&jsonp=_geocad_res&_=' + (tsjson++)
+      script.src = BING_LOC_URL + url + q + 'key=' + BING_KEY + '&jsonp=_wheredat_res&_=' + (tsjson++)
       document.body.appendChild(script)
    }
 
@@ -48,13 +48,18 @@
       layers: [bing]
    })
 
-   var sendMessage = function (lat, lng) {
+   var sendMessage = function (loc) {
       if (!parent) return
-      var data = { geocode: { lat: lat, lng: lng } }
+      var data = {
+         lat: loc.point.coordinates[0],
+         lon: loc.point.coordinates[1],
+         address: loc.name,
+         _bingObj: loc
+      }
       if (parent.postMessage)
          parent.postMessage(data,'*')
       if (parent.geocad_geocode) {
-         parent.geocad_geocode(data)
+         parent.wheredat_geocode(data)
       }
    }
 
@@ -64,13 +69,11 @@
       marker.on('dragend', handleDrag)
       map.addLayer(marker)
       map.setView(markerLocation, 18)
-      sendMessage(coords[0], coords[1])
    }
 
    function handleDrag (e) {
       var latlng = e.target.getLatLng()
       G.reverseGeocode(latlng.lat,latlng.lng)
-      sendMessage(latlng.lat, latlng.lng)
    }
 
    if (address)
@@ -80,12 +83,12 @@
       createMarker([lat,lon])
    }
 
-   window._geocad_res = function (data) {
+   window._wheredat_res = function (data) {
       try {
          var loc = data.resourceSets[0].resources[0]
-         console.log(loc)
          if (!marker) { createMarker(loc.point.coordinates) }
          addressEl.innerHTML = loc.name
+         sendMessage(loc)
       } catch (e) { /* */ }
    }
 }()

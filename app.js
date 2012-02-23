@@ -4,14 +4,14 @@ var fs = require('fs')
 
 function makeIndex() {
    var index = fs.readFileSync('index.html').toString()
-      .replace('/*inc leaflet.css*/', fs.readFileSync('leaflet.css').toString())
-      .replace('/*inc leaflet.js*/', fs.readFileSync('leaflet.js').toString())
-      .replace('/*inc geocad.js*/', fs.readFileSync('geocad.js').toString())
+      .replace("<link href='leaflet.css' rel='stylesheet'>", '<style>' + fs.readFileSync('leaflet.css').toString() + '</style>')
+      .replace("<script src='leaflet.js'></script>", '<script>' + fs.readFileSync('leaflet.js').toString() + '</script>')
+      .replace("<script src='wheredat.js'></script>", '<script>' + fs.readFileSync('wheredat.js').toString() + '</script>')
    return new Buffer(index)
 }
 
 var index = makeIndex()
-var test = fs.readFileSync('iframe_test.html')
+var example = fs.readFileSync('example.html')
 
 var icons = {
    '/img/marker.png': fs.readFileSync('img/marker.png'),
@@ -28,8 +28,8 @@ http.createServer(function (req, res) {
    }
    else {
       res.writeHead(200, { 'Content-Type': 'text/html' })
-      if (req.url === '/iframe_test')
-         res.end(test)
+      if (req.url === '/example.html')
+         res.end(example)
       else
          res.end(index)
    }
