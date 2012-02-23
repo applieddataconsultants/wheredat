@@ -28,7 +28,7 @@
    var lat = Number(param('lat'))
    var lon = Number(param('lon'))
    var address = param('address')
-   var type = param('type')
+   var type = param('type') || 'aerialwithlabels'
    var marker = null
    var addressEl = document.getElementById('address')
 
@@ -40,7 +40,7 @@
       document.body.appendChild(script)
    }
 
-   var bing = new L.TileLayer.Bing(BING_KEY, 'aerial')
+   var bing = new L.TileLayer.Bing(BING_KEY, type)
 
    var map = new L.Map('map', {
       minZoom: 0,
@@ -89,6 +89,6 @@
          if (!marker) { createMarker(loc.point.coordinates) }
          addressEl.innerHTML = loc.name
          sendMessage(loc)
-      } catch (e) { /* */ }
+      } catch (e) { }
    }
 }()

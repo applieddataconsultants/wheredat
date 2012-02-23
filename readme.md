@@ -27,6 +27,10 @@ node app.js
 - *lat* - latitude to reverse geocode
 - *lon* - longitude to reverse geocode
 - *address* - address to geocode
+- *type* - map type
+  - road
+  - aerial
+  - aerialwithlabels (default)
 - *key* - Bing API key **(required)**
 
 ### Response
