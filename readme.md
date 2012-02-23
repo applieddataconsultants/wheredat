@@ -2,13 +2,13 @@
 
 Roll your own geocoding interface.
 
-## What is it?
+### What is it?
 
 wheredat provides a geocoding and reverse geocoding interface (UI) through
 Bing&reg; maps.  You setup an instance of the application and then embed it in
 an iframe on any other applications that use it.  The client app passes an
 address or lonlat it needs geocoded and wheredat builds a map showing the
-location found allowing the user to move the point on the map to find to
+location found allowing the user to move the point on the map to
 further refine the location.  All this information is passed back to the client
 app so it can be used or stored there.
 
@@ -17,8 +17,6 @@ Another one of its goals is to be extremely light weight and quick to load.
 ### Setup
 
 Built to be served with [node.js](http://nodejs.org/) although you can serve the files up statically as well.
-
-If usign node just run:
 
 ```
 node app.js
@@ -35,7 +33,7 @@ node app.js
 
 wheredat uses [window.postMessage](https://developer.mozilla.org/en/DOM/window.postMessage)
 for cross domain communication.  However, this is not supported in IE &lt;= 7.
-If your application needs to support legacy browser, wheredat also calls a
+If your application support legacy browsers, wheredat also calls a
 function named `wheredat_geocode` on the parent window.  However for this to
 work you will need to proxy your wheredat server.
 
