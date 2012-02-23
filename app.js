@@ -2,6 +2,8 @@
 var http = require('http')
 var fs = require('fs')
 
+process.chdir(__dirname)
+
 function makeIndex() {
    var index = fs.readFileSync('index.html').toString()
       .replace("<link href='leaflet.css' rel='stylesheet'>", '<style>' + fs.readFileSync('leaflet.css').toString() + '</style>')
@@ -33,4 +35,4 @@ http.createServer(function (req, res) {
       else
          res.end(index)
    }
-}).listen(8000)
+}).listen(8002)
