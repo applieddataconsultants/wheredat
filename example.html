@@ -2,9 +2,11 @@
 <title>... wheredat ... example</title>
 <iframe src='http://localhost:8000/?key=Au9wKEAhErDCjGivE1ha3UhbBKmgHxjJkAAKTIqpwN1_5eR4QOtaH8YcH3Rl_J4L&address=1627 Hoover Avenue 54701' width="400px" height="400px"></iframe>
 <script>
+   // for cross domain w/ no need to support IE <= 7
    window.onmessage = function (e) {
       console.log('postmessage', e.data)
    }
+   // for same domain w/ support for IE <= 7
    window.wheredat_geocode = function (data) {
       console.log('geocad', data)
    }

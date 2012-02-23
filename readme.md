@@ -49,7 +49,11 @@ The data returned will look like:
 ```
 
 This data will return whenever a geocode or reverse geocode happens (e.g.
-whenever the point is moved or when the map is initially loaded)
+whenever the point is moved or when the map is initially loaded).
+
+### Example
+
+See `example.html` for an example of usage in a client side application.
 
 ## License
 
