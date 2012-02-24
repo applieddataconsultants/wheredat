@@ -48,19 +48,21 @@
       layers: [bing]
    })
 
+   var sameDomain = null
+
    var sendMessage = function (loc) {
       if (!parent) return
+      if (sameDomain == null) sameDomain = !!(parent.wheredat_geocode)
+
       var data = {
          lat: loc.point.coordinates[0],
          lon: loc.point.coordinates[1],
          address: loc.name,
+         bounds: loc.bbox,
          _bingObj: loc
       }
-      if (parent.postMessage)
-         parent.postMessage(data,'*')
-      if (parent.geocad_geocode) {
-         parent.wheredat_geocode(data)
-      }
+      if (parent.postMessage) parent.postMessage(data,'*')
+      if (sameDomain) parent.wheredat_geocode(data)
    }
 
    function createMarker (coords) {

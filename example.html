@@ -1,5 +1,6 @@
 <!doctype html>
 <title>... wheredat ... example</title>
+<meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1'/>
 <style>
 @import url(http://fonts.googleapis.com/css?family=Norican);
 @import url(http://fonts.googleapis.com/css?family=Ubuntu);
@@ -13,23 +14,23 @@ pre { font-size: 1.1em; background-color: #fff; padding: 20px; color: #333; bord
 a { color: lightblue }
 cite { font-family: Norican; font-size: 1.6em; font-style: normal }
 </style>
-<iframe src='/?address=2985 58th Street Eau Claire, WI 54703&key=Aoxp_XJVUJn2g90muYzyaN4P-BmIrX9Lohr-nrtKIP5zq97Lre3ntRCZSnL0ZQO9' width="100%" height="400px"></iframe>
+<iframe src='/?address=58th Ave 54729&key=Aoxp_XJVUJn2g90muYzyaN4P-BmIrX9Lohr-nrtKIP5zq97Lre3ntRCZSnL0ZQO9' width="100%" height="400px"></iframe>
 
 <h1 class='center'>wheredat &#8634;</h1>
 
 <div class='wrap'>
 <p> <b>Step 1:</b> Embed the app (as seen above), and pass it some parameters: </p>
 <pre>
-&lt;iframe src='http://[WHEREDAT]/?address=58th Ave Chippewa 54729&amp;key=[BINGKEY]"&gt;&lt;/iframe&gt;
+&lt;iframe src='http://[WHEREDAT]/?address=58th Ave 54729&amp;key=[BINGKEY]"&gt;&lt;/iframe&gt;
 </pre>
 
 <p> <b>Step 2:</b> Get feedback about what <cite>wheredat</cite> is geocoding to use in your client app: </p>
 <pre>
 // for cross domain w/ <i>no</i> support for IE &lt;= 7
-window.onmessage = function (e) { console.log('postmessage', e.data) }
+window.onmessage = function (e) { console.log(e.data) }
 
 // for same domain w/ support for IE &lt;= 7 (requires proxy)
-window.wheredat_geocode = function (data) { console.log('geocad', data) }
+window.wheredat_geocode = function (data) { console.log(data) }
 </pre>
 
 <p class='center'> Read about all the request parameters and message data objects on <a href='http://github.com/applieddataconsultants/wheredat/'>the github page</a>. </p>
@@ -42,6 +43,6 @@ window.wheredat_geocode = function (data) { console.log('geocad', data) }
    }
    // for same domain w/ support for IE <= 7 (requires proxy)
    window.wheredat_geocode = function (data) {
-      console.log('geocad', data)
+      console.log('wheredat_geocode', data)
    }
 </script>

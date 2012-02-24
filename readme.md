@@ -45,10 +45,11 @@ The data returned will look like:
 
 ```json
 {
-   lat: 16.365768432617188,
-   lon: -88.48485565185547,
-   address: "Monkey River Town, Belize"
-   _bingObj: /* original object from Bing */
+   address: "58TH Ave, Chippewa Falls, WI 54729",
+   bounds: [ 44.922998091755495, -91.2955657722567, 44.93072352689685, -91.281018090048 ],
+   lat: 44.92686080932617,
+   lon: -91.28829193115234,
+   _bingObj: /* Original Bing Geocode Object */
 }
 ```
 
