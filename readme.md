@@ -1,6 +1,6 @@
 ## wheredat
 
-Roll your own geocoding interface.
+Adding a geocoding UI for your apps made dead simple
 
 ### What is it?
 
