@@ -57,7 +57,7 @@ whenever the point is moved or when the map is initially loaded).
 
 ### Example
 
-See `example.html` for an example of usage in a client side application.
+See [the demo page](http://wheredat.adc4gis.com/example.html) for an example of usage in a client side application.
 
 ## License
 
