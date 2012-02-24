@@ -6,8 +6,8 @@ process.chdir(__dirname)
 
 function makeIndex() {
    var index = fs.readFileSync('index.html').toString()
-      .replace("<link href='leaflet.css' rel='stylesheet'>", '<style>' + fs.readFileSync('leaflet.css').toString() + '</style>')
-      .replace("<script src='leaflet.js'></script>", '<script>' + fs.readFileSync('leaflet.js').toString() + '</script>')
+      .replace("<link href='lib.css' rel='stylesheet'>", '<style>' + fs.readFileSync('lib.css').toString() + '</style>')
+      .replace("<script src='lib.js'></script>", '<script>' + fs.readFileSync('lib.js').toString() + '</script>')
       .replace("<script src='wheredat.js'></script>", '<script>' + fs.readFileSync('wheredat.js').toString() + '</script>')
    return new Buffer(index)
 }
@@ -23,10 +23,16 @@ var icons = {
    '/img/zoom-out.png': fs.readFileSync('img/zoom-out.png')
 }
 
+var iecss = fs.readFileSync('lib-ie.css')
+
 http.createServer(function (req, res) {
    if (req.url.match(/img/)) {
       res.writeHead(200, { 'Content-Type': 'image/png' })
       res.end(icons[req.url])
+   }
+   else if (req.url === '/lib-ie.css') {
+      res.writeHead(200, { 'Content-Type': 'text/css' })
+      res.end(iecss)
    }
    else {
       res.writeHead(200, { 'Content-Type': 'text/html' })

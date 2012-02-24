@@ -1,10 +1,12 @@
 <!doctype html>
 <title>... wheredat ...</title>
 <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1'/>
-<link href='leaflet.css' rel='stylesheet'>
+<link href='lib.css' rel='stylesheet'>
+<!--[if lte IE 8]><link rel="stylesheet" href="lib-ie.css" /><![endif]-->
 <style>
    html, body { padding: 0; margin: 0; overflow: hidden }
    html, body, #map { width: 100%; height: 100% }
+   img { border: none }
    #address {
       font-family: sans-serif;
       font-size: 12px;
@@ -12,13 +14,14 @@
       position: absolute;
       top: 5px;
       right: 5px;
+      background-color: #333;
       background-color: rgba(33,33,33,0.6);
-      z-index: 1000;
+      z-index: 10000;
       color: #fff;
       font-weight: bold;
       border-radius: 5px;
    }
 </style>
-<div id="map"><div id="address"></div></div>
-<script src='leaflet.js'></script>
+<div id="map"></div><div id="address"></div>
+<script src='lib.js'></script>
 <script src='wheredat.js'></script>

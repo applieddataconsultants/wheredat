@@ -30,7 +30,7 @@
    var address = param('address')
    var type = param('type') || 'aerialwithlabels'
    var marker = null
-   var addressEl = document.getElementById('address')
+   var addressEl = null
 
    var tsjson = +new Date()
    function jsonp (url) {
@@ -42,13 +42,8 @@
 
    var bing = new L.TileLayer.Bing(BING_KEY, type)
 
-   var map = new L.Map('map', {
-      minZoom: 0,
-      maxZoom: 21,
-      layers: [bing]
-   })
-
    var sameDomain = null
+   var map = null
 
    var sendMessage = function (loc) {
       if (!parent) return
@@ -78,12 +73,19 @@
       G.reverseGeocode(latlng.lat,latlng.lng)
    }
 
-   if (address)
-      G.geocode(address)
-   else {
-      G.reverseGeocode(lat,lon)
-      createMarker([lat,lon])
-   }
+   alReady(function() {
+      addressEl = document.getElementById('address')
+      map = new L.Map('map', {
+         minZoom: 0,
+         maxZoom: 21,
+         layers: [bing]
+      })
+      if (address) G.geocode(address)
+      else {
+         G.reverseGeocode(lat,lon)
+         createMarker([lat,lon])
+      }
+   })
 
    window._wheredat_res = function (data) {
       try {
