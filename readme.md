@@ -33,7 +33,7 @@ node app.js
   - aerialwithlabels (default)
 - *key* - Bing API key **(required)**
 
-### Response
+### Message Data
 
 wheredat uses [window.postMessage](https://developer.mozilla.org/en/DOM/window.postMessage)
 for cross domain communication.  However, this is not supported in IE &lt;= 7.

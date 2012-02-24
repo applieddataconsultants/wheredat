@@ -1,6 +1,40 @@
 <!doctype html>
 <title>... wheredat ... example</title>
-<iframe src='/?key=Aoxp_XJVUJn2g90muYzyaN4P-BmIrX9Lohr-nrtKIP5zq97Lre3ntRCZSnL0ZQO9&address=1627 Hoover Avenue 54701' width="400px" height="400px"></iframe>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Norican);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+body { background-color: #333; color: #fff }
+iframe { border: none; box-shadow: 0 0 8px #000 }
+.wrap { width: 900px; position: relative; margin: 0 auto }
+.center { text-align: center }
+h1 { font-family: Norican; font-size: 4em; margin: 0; text-shadow: -1px 1px 1px #000}
+p { font-family: Ubuntu; text-shadow: -1px 1px 1px #000 }
+pre { font-size: 1.1em; background-color: #fff; padding: 20px; color: #333; border-radius: 15px; box-shadow: inset 0 0 2px #333 }
+a { color: lightblue }
+cite { font-family: Norican; font-size: 1.6em; font-style: normal }
+</style>
+<iframe src='/?address=2985 58th Street Eau Claire, WI 54703&key=Aoxp_XJVUJn2g90muYzyaN4P-BmIrX9Lohr-nrtKIP5zq97Lre3ntRCZSnL0ZQO9' width="100%" height="400px"></iframe>
+
+<h1 class='center'>wheredat &#8634;</h1>
+
+<div class='wrap'>
+<p> <b>Step 1:</b> Embed the app (as seen above), and pass it some parameters: </p>
+<pre>
+&lt;iframe src='http://[WHEREDAT]/?address=2985 58th Street Eau Claire, WI 54703&amp;key=[BINGKEY]"&gt;&lt;/iframe&gt;
+</pre>
+
+<p> <b>Step 2:</b> Get feedback about what <cite>wheredat</cite> is geocoding to use in your client app: </p>
+<pre>
+// for cross domain w/ <i>no</i> support for IE &lt;= 7
+window.onmessage = function (e) { console.log('postmessage', e.data) }
+
+// for same domain w/ support for IE &lt;= 7 (requires proxy)
+window.wheredat_geocode = function (data) { console.log('geocad', data) }
+</pre>
+
+<p class='center'> Read about all the request parameters and message data objects on <a href='http://github.com/applieddataconsultants/wheredat/'>the github page</a>. </p>
+</div>
+
 <script>
    // for cross domain w/ no support for IE <= 7
    window.onmessage = function (e) {
