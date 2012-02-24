@@ -1,6 +1,6 @@
 ## wheredat
 
-Adding a geocoding UI for your apps made dead simple
+A simple, easy to use, geocoding interface for web applications
 
 ### What is it?
 
