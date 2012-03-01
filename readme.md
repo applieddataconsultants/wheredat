@@ -31,6 +31,7 @@ node app.js
   - road
   - aerial
   - aerialwithlabels (default)
+- *freeze* - lock map, no dragging, zooming, panning
 - *key* - Bing API key **(required)**
 
 ### Message Data

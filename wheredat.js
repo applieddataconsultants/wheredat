@@ -28,6 +28,7 @@
    var lat = Number(param('lat'))
    var lon = Number(param('lon'))
    var address = param('address')
+   var freeze = param('freeze') === 'true' ? true : false
    var type = param('type') || 'aerialwithlabels'
    var marker = null
    var addressEl = null
@@ -62,8 +63,8 @@
 
    function createMarker (coords) {
       var markerLocation = new L.LatLng(coords[0], coords[1])
-      marker = new L.Marker(markerLocation, { draggable: true, icon: new Icon() })
-      marker.on('dragend', handleDrag)
+      marker = new L.Marker(markerLocation, { draggable: freeze ? false : true, icon: new Icon() })
+      if (!freeze) marker.on('dragend', handleDrag)
       map.addLayer(marker)
       map.setView(markerLocation, 18)
    }
@@ -75,11 +76,15 @@
 
    alReady(function() {
       addressEl = document.getElementById('address')
-      map = new L.Map('map', {
-         minZoom: 0,
-         maxZoom: 21,
-         layers: [bing]
-      })
+      var opt = { minZoom: 0, maxZoom: 21, layers: [bing] }
+      if (freeze) {
+         opt.touchZoom = false
+         opt.scrollWheelZoom = false
+         opt.doubleClickZoom = false
+         opt.dragging = false
+         opt.zoomControl = false
+      }
+      map = new L.Map('map', opt)
       if (address) G.geocode(address)
       else {
          G.reverseGeocode(lat,lon)
