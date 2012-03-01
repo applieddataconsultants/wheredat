@@ -48,7 +48,6 @@
 
    var sendMessage = function (loc) {
       if (!parent) return
-      if (sameDomain == null) sameDomain = !!(parent.wheredat_geocode)
 
       var data = {
          lat: loc.point.coordinates[0],
@@ -58,6 +57,8 @@
          _bingObj: loc
       }
       if (parent.postMessage) parent.postMessage(data,'*')
+
+      if (sameDomain == null) sameDomain = !!(parent.wheredat_geocode)
       if (sameDomain) parent.wheredat_geocode(data)
    }
 
