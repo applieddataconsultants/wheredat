@@ -49,13 +49,18 @@
    var sendMessage = function (loc) {
       if (!parent) return
 
-      var data = {
-         lat: loc.point.coordinates[0],
-         lon: loc.point.coordinates[1],
-         address: loc.name,
-         bounds: loc.bbox,
-         _bingObj: loc
-      }
+      var data
+      if (loc)
+         data = {
+            lat: loc.point.coordinates[0],
+            lon: loc.point.coordinates[1],
+            address: loc.name,
+            bounds: loc.bbox,
+            _bingObj: loc
+         }
+      else
+         data = { error: 'wheredat was unable to geocode' }
+
       if (parent.postMessage) parent.postMessage(data,'*')
 
       if (sameDomain == null) sameDomain = !!(parent.wheredat_geocode)
@@ -99,6 +104,8 @@
          if (!marker) { createMarker(loc.point.coordinates) }
          addressEl.innerHTML = loc.name
          sendMessage(loc)
-      } catch (e) { }
+      } catch (e) {
+         sendMessage(null)
+      }
    }
 }()

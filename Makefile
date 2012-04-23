@@ -6,21 +6,12 @@ instance=\033[32;01m${project}\033[m
 watch:
 	@always app.js
 
-deploy_live: server = sawyer@172.25.20.120
+deploy_live: serverA = sawyer@172.25.20.111
+deploy_live: serverB = sawyer@172.25.20.120
 deploy_live:
-	@rsync -az --exclude=".git" --delete * ${server}:${path}
-	@echo " ${instance} | copied files to ${server}"
-	@ssh ${server} "sudo restart ${project}"
-	@echo " ${instance} | restarting app on ${server}"
-
-tmux_setup:
-	@tmux new-session -s ${project} -d -n workspace
-	@tmux split-window -t ${project} -h
-	@tmux select-layout -t ${project} main-vertical
-	@tmux send-keys -t ${project}:1.0 'vim' C-m
-	@tmux send-keys -t ${project}:1.1 'make' C-m
-	@tmux select-pane -t ${project}:1.0
-
-tmux:
-	@if ! tmux has-session -t ${project}; then exec make tmux_setup; fi
-	@tmux attach -t ${project}
+	@rsync -az --exclude=".git" --delete * ${serverA}:${path}
+	@rsync -az --exclude=".git" --delete * ${serverB}:${path}
+	@echo -e " ${instance} | copied files to ${serverA} and ${serverB}"
+	@ssh ${serverA} "sudo restart ${project}"
+	@ssh ${serverB} "sudo restart ${project}"
+	@echo -e " ${instance} | restarting app on ${serverA} and ${serverB}"
