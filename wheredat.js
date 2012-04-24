@@ -101,11 +101,11 @@
    window._wheredat_res = function (data) {
       try {
          var loc = data.resourceSets[0].resources[0]
+         if (!loc) return sendMessage(null)
+
          if (!marker) { createMarker(loc.point.coordinates) }
          addressEl.innerHTML = loc.name
          sendMessage(loc)
-      } catch (e) {
-         sendMessage(null)
-      }
+      } catch (e) {}
    }
 }()
