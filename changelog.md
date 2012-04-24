@@ -1,4 +1,10 @@
 
+0.2.1 / 2012-04-24 
+==================
+
+  * updated; send a response when geocode failed
+  * fix postmessage issue
+
 0.2.0 / 2012-03-01 
 ==================
 
