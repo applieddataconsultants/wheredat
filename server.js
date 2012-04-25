@@ -2,7 +2,7 @@
 
 const http = require('http')
 const fs = require('fs')
-const port = process.argv[2] || 8002
+const port = process.argv[2] || 3000
 
 process.chdir(__dirname)
 
