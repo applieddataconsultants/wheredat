@@ -18,8 +18,11 @@ Another one of its goals is to be extremely light weight and quick to load.
 
 Built to be served with [node.js](http://nodejs.org/) although you can serve the files up statically as well.
 
-```
-node app.js
+For node do:
+
+```sh
+sudo npm install -g wheredat
+wheredat [port]
 ```
 
 ### Request Params
@@ -53,6 +56,14 @@ The data returned will look like:
    lat: 44.92686080932617,
    lon: -91.28829193115234,
    _bingObj: /* Original Bing Geocode Object */
+}
+```
+
+Or if unable to geocode:
+
+```json
+{
+   error: 'wheredat was unable to geocode'
 }
 ```
 
