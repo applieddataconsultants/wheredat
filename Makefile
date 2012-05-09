@@ -1,6 +1,8 @@
 project=wheredat
 instance=\033[36;01m${project}\033[m
 
+all: tmux
+
 watch:
 	@if ! which supervisor > /dev/null; then echo "supervisor required, installing..."; sudo npm install -g supervisor; fi
 	@supervisor -e html,js,css -n exit server.js
@@ -14,7 +16,7 @@ tmux_setup:
 	@tmux resize-pane   -t ${project} -D 2
 	@tmux select-layout -t ${project} main-vertical
 	@tmux send-keys     -t ${project}:1.0 'vim' C-m
-	@tmux send-keys     -t ${project}:1.2 'make' C-m
+	@tmux send-keys     -t ${project}:1.2 'make watch' C-m
 	@tmux select-pane   -t ${project}:1.0
 	@tmux resize-pane   -t ${project} -R 40
 

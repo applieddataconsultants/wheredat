@@ -45,6 +45,7 @@
 
    var sameDomain = null
    var map = null
+   var lastLatLng = {}
 
    var sendMessage = function (loc) {
       if (!parent) return
@@ -52,8 +53,10 @@
       var data
       if (loc)
          data = {
-            lat: loc.point.coordinates[0],
-            lon: loc.point.coordinates[1],
+            lat: lastLatLng.lat || loc.point.coordinates[0],
+            lon: lastLatLng.lng || loc.point.coordinates[1],
+            geocodeLat: loc.point.coordinates[0],
+            geocodeLon: loc.point.coordinates[1],
             address: loc.name,
             bounds: loc.bbox,
             _bingObj: loc
@@ -76,8 +79,8 @@
    }
 
    function handleDrag (e) {
-      var latlng = e.target.getLatLng()
-      G.reverseGeocode(latlng.lat,latlng.lng)
+      lastLatLng = e.target.getLatLng()
+      G.reverseGeocode(lastLatLng.lat,lastLatLng.lng)
    }
 
    alReady(function() {
