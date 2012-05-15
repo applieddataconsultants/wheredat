@@ -1,4 +1,10 @@
 
+0.2.4 / 2012-05-15 
+==================
+
+  * updated; issue with Makefile
+  * added; debug option
+
 0.2.3 / 2012-05-15 
 ==================
 
