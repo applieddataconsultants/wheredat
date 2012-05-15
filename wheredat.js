@@ -38,6 +38,7 @@
    var address = param('address')
    var freeze = param('freeze') === 'true' ? true : false
    var type = param('type') || 'aerialwithlabels'
+   var debug = param('debug') === 'true' ? true : false
    var marker = null
    var addressEl = null
 
@@ -64,7 +65,7 @@
       else
          data = { error: 'wheredat was unable to geocode' }
 
-      if (console && console.log) console.log(data)
+      if (debug) console.log(data)
 
       if (parent.postMessage) parent.postMessage(data,'*')
 
