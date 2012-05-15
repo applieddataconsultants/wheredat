@@ -11,6 +11,14 @@
 
    var BING_KEY = param('key')
 
+   var tsjson = +new Date()
+   function jsonp (url) {
+      var script = document.createElement('script')
+      var q = /\?/.test(url) ? '&' : '?'
+      script.src = BING_LOC_URL + url + q + 'key=' + BING_KEY + '&jsonp=_wheredat_res&_=' + (tsjson++)
+      document.body.appendChild(script)
+   }
+
    var G = {
       geocode: function (address) { jsonp('?countryCode=US&q='+address) },
       reverseGeocode: function (lat, lng) { jsonp(lat + ',' + lng) }
@@ -32,14 +40,6 @@
    var type = param('type') || 'aerialwithlabels'
    var marker = null
    var addressEl = null
-
-   var tsjson = +new Date()
-   function jsonp (url) {
-      var script = document.createElement('script')
-      var q = /\?/.test(url) ? '&' : '?'
-      script.src = BING_LOC_URL + url + q + 'key=' + BING_KEY + '&jsonp=_wheredat_res&_=' + (tsjson++)
-      document.body.appendChild(script)
-   }
 
    var bing = new L.TileLayer.Bing(BING_KEY, type)
 
@@ -63,6 +63,8 @@
          }
       else
          data = { error: 'wheredat was unable to geocode' }
+
+      if (console && console.log) console.log(data)
 
       if (parent.postMessage) parent.postMessage(data,'*')
 
