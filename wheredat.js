@@ -67,10 +67,10 @@
 
       if (debug) console.log(data)
 
-      if (parent.postMessage) parent.postMessage(data,'*')
+      if (parent.postMessage) parent.postMessage(JSON.stringify(data),'*')
 
       if (sameDomain == null) sameDomain = !!(parent.wheredat_geocode)
-      if (sameDomain) parent.wheredat_geocode(data)
+      if (sameDomain) parent.wheredat_geocode(JSON.stringify(data))
    }
 
    function createMarker (coords) {
