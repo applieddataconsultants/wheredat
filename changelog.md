@@ -1,4 +1,9 @@
 
+0.3.0 / 2012-09-28 
+==================
+
+  * updated; stringify data object before sending it (breaking change!)
+
 0.2.4 / 2012-05-15 
 ==================
 
