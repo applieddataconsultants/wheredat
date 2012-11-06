@@ -51,7 +51,7 @@ work you will need to proxy your wheredat server.
 
 The data returned will look like:
 
-```json
+```js
 {
    address: "58TH Ave, Chippewa Falls, WI 54729",
    bounds: [ 44.922998091755495, -91.2955657722567, 44.93072352689685, -91.281018090048 ],
@@ -63,7 +63,7 @@ The data returned will look like:
 
 Or if unable to geocode:
 
-```json
+```js
 {
    error: 'wheredat was unable to geocode'
 }
