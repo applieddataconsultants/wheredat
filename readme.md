@@ -2,6 +2,8 @@
 
 A simple, easy to use, geocoding interface for web applications
 
+![WhereDAT](https://raw.github.com/applieddataconsultants/wheredat/master/wheredat.png)
+
 ### What is it?
 
 wheredat provides a geocoding and reverse geocoding interface (UI) through
