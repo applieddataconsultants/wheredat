@@ -24,7 +24,7 @@
       reverseGeocode: function (lat, lng) { jsonp(lat + ',' + lng) }
    }
 
-   var Icon = L.Icon.extend({
+   var Icon = L.icon({
       iconUrl: '/img/marker.png',
       shadowUrl: '/img/marker-shadow.png',
       iconSize: new L.Point(25, 41),
@@ -42,7 +42,7 @@
    var marker = null
    var addressEl = null
 
-   var bing = new L.TileLayer.Bing(BING_KEY, type)
+   var bing = new L.BingLayer(BING_KEY, { type: type })
 
    var sameDomain = null
    var map = null
@@ -75,7 +75,7 @@
 
    function createMarker (coords) {
       var markerLocation = new L.LatLng(coords[0], coords[1])
-      marker = new L.Marker(markerLocation, { draggable: freeze ? false : true, icon: new Icon() })
+      marker = new L.Marker(markerLocation, { draggable: freeze ? false : true, icon: Icon })
       if (!freeze) marker.on('dragend', handleDrag)
       map.addLayer(marker)
       map.setView(markerLocation, 18)
@@ -88,7 +88,7 @@
 
    alReady(function() {
       addressEl = document.getElementById('address')
-      var opt = { minZoom: 0, maxZoom: 21, layers: [bing] }
+      var opt = { minZoom: 0, maxZoom: 18, layers: [bing] }
       if (freeze) {
          opt.touchZoom = false
          opt.scrollWheelZoom = false
