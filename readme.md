@@ -47,7 +47,7 @@ wheredat [port]
 - *key* - Bing API key **(required if using bing)**
 - *service* - change map service to use mapquest
   - mapquest
-  - nothing (bing default)
+  - empty (bing default)
 
 ### Message Data
 
@@ -65,7 +65,7 @@ The data returned will look like:
    bounds: [ 44.922998091755495, -91.2955657722567, 44.93072352689685, -91.281018090048 ],
    lat: 44.92686080932617,
    lon: -91.28829193115234,
-   _mapObj: /* Original MapQuest Geocode Object */
+   _mapquestObj: /* Original MapQuest Geocode Object */
 }
 ```
 
@@ -82,7 +82,9 @@ whenever the point is moved or when the map is initially loaded).
 
 ### Example
 
-See [the demo page](http://wheredat.adc4gis.com/example.html) for an example of usage in a client side application.
+See [the demo page](http://wheredat.adc4gis.com/example.html) for an example of the Bing usage in a client side application.
+
+See [the demo page](http://wheredat.adc4gis.com/mapquest-example.html) for an example of the MapQuest usage in a client side application.
 
 ## License
 

@@ -69,13 +69,13 @@
       var data
       if (loc)
          data = {
-            lat: lastLatLng.lat || loc.point.coordinates[0],
-            lon: lastLatLng.lng || loc.point.coordinates[1],
-            geocodeLat: loc.point.coordinates[0],
-            geocodeLon: loc.point.coordinates[1],
-            address: loc.name,
-            bounds: loc.bbox,
-            _bingObj: loc
+            lat: lastLatLng.lat || !isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat,
+            lon: lastLatLng.lng || !isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng,
+            geocodeLat: !isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat,
+            geocodeLon: !isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng,
+            address: !isMapQuest ? loc.name : buildAddressStr(loc),
+            bounds: !isMapQuest ? loc.bbox : [loc.latlng.lat, loc.latlng.lng, loc.latlng.lat, loc.latlng.lng],
+            _mapquestObj: loc
          }
       else
          data = { error: 'wheredat was unable to geocode' }
