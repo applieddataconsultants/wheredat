@@ -33,13 +33,21 @@ wheredat [port]
 - *lon* - longitude to reverse geocode
 - *address* - address to geocode
 - *type* - map type
-  - road
-  - aerial
-  - aerialwithlabels (default)
+  - *bing*
+    - road
+    - aerial
+    - aerialwithlabels (default)
+  - *mapquest*
+    - road
+    - satellite
+    - hybrid (default)
 - *freeze* - lock map, no dragging, zooming, panning
   - true
   - false (default)
-- *key* - Bing API key **(required)**
+- *key* - Bing API key **(required if using bing)**
+- *service* - change map service to use mapquest
+  - mapquest
+  - nothing (bing default)
 
 ### Message Data
 
@@ -57,7 +65,7 @@ The data returned will look like:
    bounds: [ 44.922998091755495, -91.2955657722567, 44.93072352689685, -91.281018090048 ],
    lat: 44.92686080932617,
    lon: -91.28829193115234,
-   _bingObj: /* Original Bing Geocode Object */
+   _mapObj: /* Original MapQuest Geocode Object */
 }
 ```
 
