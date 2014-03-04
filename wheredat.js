@@ -1,5 +1,6 @@
 !function _wheredat(){
    var BING_LOC_URL = 'https://dev.virtualearth.net/REST/v1/Locations/'
+   var isMapQuest = false
 
    function param (name) {
       name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]")
@@ -9,7 +10,14 @@
       return results != null ? decodeURIComponent(results[1].replace( /\+/g, " ")) : ''
    }
 
+   var service = param('service')
    var BING_KEY = param('key')
+
+   if (service === "mapquest") {
+      document.write('<script src="http://beta.mapquestapi.com/sdk/leaflet/v0.1/mq-map.js?key=Fmjtd%7Cluur2l6rn1%2Can%3Do5-9012uw"><\/script>');
+      document.write('<script src="http://beta.mapquestapi.com/sdk/leaflet/v0.1/mq-geocoding.js?key=Fmjtd%7Cluur2l6rn1%2Can%3Do5-9012uw"><\/script>')
+      isMapQuest = true
+   }
 
    var tsjson = +new Date()
    function jsonp (url) {
@@ -20,8 +28,14 @@
    }
 
    var G = {
-      geocode: function (address) { jsonp('?countryCode=US&q='+address) },
-      reverseGeocode: function (lat, lng) { jsonp(lat + ',' + lng) }
+      geocode: function (address) {
+         if (!isMapQuest) jsonp('?countryCode=US&q='+address)
+         else MQ.geocode().search(address).on('success', function(e) { window._wheredat_res(e.result.best) })
+      },
+      reverseGeocode: function (lat, lng) {
+         if (!isMapQuest) jsonp(lat + ',' + lng)
+         else MQ.geocode().reverse({lat:lat,lng:lng}).on('success', function (e) { window._wheredat_res(e.result.best) })
+      }
    }
 
    var Icon = L.icon({
@@ -42,7 +56,8 @@
    var marker = null
    var addressEl = null
 
-   var bing = new L.BingLayer(BING_KEY, { type: type })
+   var layer = null
+   var maxZoom = null
 
    var sameDomain = null
    var map = null
@@ -78,7 +93,7 @@
       marker = new L.Marker(markerLocation, { draggable: freeze ? false : true, icon: Icon })
       if (!freeze) marker.on('dragend', handleDrag)
       map.addLayer(marker)
-      map.setView(markerLocation, 18)
+      map.setView(markerLocation, maxZoom)
    }
 
    function handleDrag (e) {
@@ -87,8 +102,21 @@
    }
 
    alReady(function() {
+      if (isMapQuest) {
+         switch (type) {
+            case 'hybrid'    : layer = MQ.hybridLayer(); break
+            case 'satellite' : layer = MQ.satelliteLayer(); break
+            case 'road'      : layer = MQ.mapLayer(); break
+            default          : layer = MQ.hybridLayer();
+         }
+         maxZoom = 17
+      } else {
+         layer = new L.BingLayer(BING_KEY, { type: type })
+         maxZoom = 18
+      }
+
       addressEl = document.getElementById('address')
-      var opt = { minZoom: 0, maxZoom: 18, layers: [bing] }
+      var opt = { minZoom: 0, maxZoom: maxZoom, layers: [layer] }
       if (freeze) {
          opt.touchZoom = false
          opt.scrollWheelZoom = false
@@ -106,12 +134,24 @@
 
    window._wheredat_res = function (data) {
       try {
-         var loc = data.resourceSets[0].resources[0]
+         var loc = !isMapQuest ? data.resourceSets[0].resources[0] : data
          if (!loc) return sendMessage(null)
 
-         if (!marker) { createMarker(loc.point.coordinates) }
-         addressEl.innerHTML = loc.name
+         if (!isMapQuest) {
+            if (!marker) { createMarker(loc.point.coordinates) }
+            addressEl.innerHTML = loc.name
+         } else {
+            if (!marker) { createMarker([loc.latlng.lat, loc.latlng.lng]) }
+            addressEl.innerHTML = buildAddressStr(loc)
+         }
+
          sendMessage(loc)
       } catch (e) {}
+   }
+
+   function buildAddressStr (data) {
+      return data.street !== ""
+                           ? data.street + ", " + data.adminArea5 + ", " + data.adminArea3 + " " + data.postalCode
+                           : data.adminArea5 + ", " + data.adminArea3 + " " + data.postalCode
    }
 }()
