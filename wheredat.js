@@ -88,7 +88,7 @@
 
    alReady(function() {
       addressEl = document.getElementById('address')
-      var opt = { minZoom: 0, maxZoom: 21, layers: [bing] }
+      var opt = { minZoom: 0, maxZoom: 18, layers: [bing] }
       if (freeze) {
          opt.touchZoom = false
          opt.scrollWheelZoom = false
