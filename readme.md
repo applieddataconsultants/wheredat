@@ -7,7 +7,7 @@ A simple, easy to use, geocoding interface for web applications
 ### What is it?
 
 wheredat provides a geocoding and reverse geocoding interface (UI) through
-[Bing](http://www.microsoft.com/maps/developers/web.aspx) maps.  You setup an
+[Bing](http://www.microsoft.com/maps/developers/web.aspx) or [MapQuest](https://developer.mapquest.com/) maps.  You setup an
 instance of the application and then embed it in an iframe on any other
 applications that use it.  The client app passes an address or lonlat it needs
 geocoded and wheredat builds a map showing the location found allowing the user
