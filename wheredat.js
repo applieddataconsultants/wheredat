@@ -11,19 +11,21 @@
    }
 
    var service = param('service')
-   var BING_KEY = param('key')
+   var API_KEY = param('key')
 
    if (service === "mapquest") {
-      document.write('<script src="http://beta.mapquestapi.com/sdk/leaflet/v0.1/mq-map.js?key=Fmjtd%7Cluur2l6rn1%2Can%3Do5-9012uw"><\/script>');
-      document.write('<script src="http://beta.mapquestapi.com/sdk/leaflet/v0.1/mq-geocoding.js?key=Fmjtd%7Cluur2l6rn1%2Can%3Do5-9012uw"><\/script>')
+      document.write('<script src="http://beta.mapquestapi.com/sdk/leaflet/v0.1/mq-map.js?key='+ API_KEY +'"><\/script>');
+      document.write('<script src="http://beta.mapquestapi.com/sdk/leaflet/v0.1/mq-geocoding.js?key='+ API_KEY +'"><\/script>')
       isMapQuest = true
+   } else {
+      isMapQuest = false
    }
 
    var tsjson = +new Date()
    function jsonp (url) {
       var script = document.createElement('script')
       var q = /\?/.test(url) ? '&' : '?'
-      script.src = BING_LOC_URL + url + q + 'key=' + BING_KEY + '&jsonp=_wheredat_res&_=' + (tsjson++)
+      script.src = BING_LOC_URL + url + q + 'key=' + API_KEY + '&jsonp=_wheredat_res&_=' + (tsjson++)
       document.body.appendChild(script)
    }
 
@@ -67,17 +69,17 @@
       if (!parent) return
 
       var data
-      if (loc)
+      if (loc) {
          data = {
             lat: lastLatLng.lat || !isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat,
             lon: lastLatLng.lng || !isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng,
             geocodeLat: !isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat,
             geocodeLon: !isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng,
             address: !isMapQuest ? loc.name : buildAddressStr(loc),
-            bounds: !isMapQuest ? loc.bbox : [loc.latlng.lat, loc.latlng.lng, loc.latlng.lat, loc.latlng.lng],
-            _mapquestObj: loc
+            bounds: !isMapQuest ? loc.bbox : [loc.latlng.lat, loc.latlng.lng, loc.latlng.lat, loc.latlng.lng]
          }
-      else
+         !isMapQuest ? data._bingObj = loc : data._mapquestObj = loc
+      } else
          data = { error: 'wheredat was unable to geocode' }
 
       if (debug) console.log(data)
@@ -111,7 +113,7 @@
          }
          maxZoom = 17
       } else {
-         layer = new L.BingLayer(BING_KEY, { type: type })
+         layer = new L.BingLayer(API_KEY, { type: type })
          maxZoom = 18
       }
 
@@ -142,7 +144,7 @@
             addressEl.innerHTML = loc.name
          } else {
             if (!marker) { createMarker([loc.latlng.lat, loc.latlng.lng]) }
-            addressEl.innerHTML = buildAddressStr(loc)
+            addressEl.innerHTML = loc.adminArea5 !== "" && loc.adminArea3 !== "" ? buildAddressStr(loc) : ""
          }
 
          sendMessage(loc)

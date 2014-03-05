@@ -44,10 +44,10 @@ wheredat [port]
 - *freeze* - lock map, no dragging, zooming, panning
   - true
   - false (default)
-- *key* - Bing API key **(required if using bing)**
+- *key* - Bing/MapQuest API key **(required)**
 - *service* - change map service to use mapquest
   - mapquest
-  - empty (bing default)
+  - bing (default)
 
 ### Message Data
 
@@ -65,7 +65,8 @@ The data returned will look like:
    bounds: [ 44.922998091755495, -91.2955657722567, 44.93072352689685, -91.281018090048 ],
    lat: 44.92686080932617,
    lon: -91.28829193115234,
-   _mapquestObj: /* Original MapQuest Geocode Object */
+   _mapquestObj: /* Original MapQuest Geocode Object (If using MapQuest) */
+   _bingObj: /* Original Bing Geocode Object (If using Bing) */
 }
 ```
 
