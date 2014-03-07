@@ -7,7 +7,7 @@ A simple, easy to use, geocoding interface for web applications
 ### What is it?
 
 wheredat provides a geocoding and reverse geocoding interface (UI) through
-[Bing](http://www.microsoft.com/maps/developers/web.aspx) maps.  You setup an
+[Bing](http://www.microsoft.com/maps/developers/web.aspx) or [MapQuest](https://developer.mapquest.com/) maps.  You setup an
 instance of the application and then embed it in an iframe on any other
 applications that use it.  The client app passes an address or lonlat it needs
 geocoded and wheredat builds a map showing the location found allowing the user
@@ -33,13 +33,21 @@ wheredat [port]
 - *lon* - longitude to reverse geocode
 - *address* - address to geocode
 - *type* - map type
-  - road
-  - aerial
-  - aerialwithlabels (default)
+  - *bing*
+    - road
+    - aerial
+    - aerialwithlabels (default)
+  - *mapquest*
+    - road
+    - satellite
+    - hybrid (default)
 - *freeze* - lock map, no dragging, zooming, panning
   - true
   - false (default)
-- *key* - Bing API key **(required)**
+- *key* - Bing/MapQuest API key **(required)**
+- *service* - change map service to use mapquest
+  - mapquest
+  - bing (default)
 
 ### Message Data
 
@@ -57,7 +65,8 @@ The data returned will look like:
    bounds: [ 44.922998091755495, -91.2955657722567, 44.93072352689685, -91.281018090048 ],
    lat: 44.92686080932617,
    lon: -91.28829193115234,
-   _bingObj: /* Original Bing Geocode Object */
+   _mapquestObj: /* Original MapQuest Geocode Object (If using MapQuest) */
+   _bingObj: /* Original Bing Geocode Object (If using Bing) */
 }
 ```
 
@@ -74,7 +83,9 @@ whenever the point is moved or when the map is initially loaded).
 
 ### Example
 
-See [the demo page](http://wheredat.adc4gis.com/example.html) for an example of usage in a client side application.
+See [the demo page](http://wheredat.adc4gis.com/example.html) for an example of the Bing usage in a client side application.
+
+See [the demo page](http://wheredat.adc4gis.com/mapquest-example.html) for an example of the MapQuest usage in a client side application.
 
 ## License
 
