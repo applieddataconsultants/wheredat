@@ -71,8 +71,8 @@
       var data
       if (loc) {
          data = {
-            lat: lastLatLng.lat || !isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat,
-            lon: lastLatLng.lng || !isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng,
+            lat: lastLatLng.lat || (!isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat),
+            lon: lastLatLng.lng || (!isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng),
             geocodeLat: !isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat,
             geocodeLon: !isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng,
             address: !isMapQuest ? loc.name : buildAddressStr(loc),
