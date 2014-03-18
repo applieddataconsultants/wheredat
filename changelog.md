@@ -1,13 +1,18 @@
 
+0.4.2 / 2014-03-18
+==================
+
+ * update; check for https for mapquest [jhays10]
+
 0.4.1 / 2014-03-10
 ==================
 
- * fix; resend message
+ * fix; resend message for mapquest [jhays10]
 
 0.4.0 / 2014-03-07
 ==================
 
- * add; mapquest maps
+ * add; mapquest maps [jhays10]
 
 0.3.0 / 2012-09-28 
 ==================
