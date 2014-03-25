@@ -31,9 +31,12 @@
    }
 
    var G = {
-      geocode: function (address) {
-         if (!isMapQuest) jsonp('?countryCode=US&q='+address)
-         else MQ.geocode().search(address).on('success', function(e) { window._wheredat_res(e.result.best) })
+      geocode: function (address, country, city) {
+         if (!isMapQuest) jsonp('?countryCode='+country+'&q='+address)
+         else {
+            if (!country || !city) MQ.geocode().search(address).on('success', function(e) { window._wheredat_res(e.result.best) })
+            else MQ.geocode().search({ country: country, address: address, city: city }).on('success', function (e) { window._wheredat_res(e.result.best) })
+         }
       },
       reverseGeocode: function (lat, lng) {
          if (!isMapQuest) jsonp(lat + ',' + lng)
@@ -52,7 +55,11 @@
 
    var lat = Number(param('lat'))
    var lon = Number(param('lon'))
+
    var address = param('address')
+   var country = param('country')
+   var city = param('city')
+
    var freeze = param('freeze') === 'true' ? true : false
    var type = param('type') || 'aerialwithlabels'
    var debug = param('debug') === 'true' ? true : false
@@ -128,7 +135,7 @@
          opt.zoomControl = false
       }
       map = new L.Map('map', opt)
-      if (address) G.geocode(address)
+      if (address || city || country) G.geocode(address, country, city)
       else {
          G.reverseGeocode(lat,lon)
          createMarker([lat,lon])
