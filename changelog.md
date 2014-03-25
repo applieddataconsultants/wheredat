@@ -1,4 +1,9 @@
 
+0.4.4 / 2014-03-25
+==================
+
+ * fix; address line should be called street for mq
+
 0.4.3 / 2014-03-25
 ==================
 

@@ -3,7 +3,7 @@
   "name": "wheredat",
   "description": "A simple, easy to use, geocoding interface for web applications",
   "keywords": ["leaflet","geocode","bing","widget"],
-  "version": "0.4.3",
+  "version": "0.4.4",
   "homepage": "http://wheredat.adc4gis.com",
   "bin": { "wheredat": "server.js" },
   "repository": {
