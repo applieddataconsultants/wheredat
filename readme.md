@@ -32,6 +32,8 @@ wheredat [port]
 - *lat* - latitude to reverse geocode
 - *lon* - longitude to reverse geocode
 - *address* - address to geocode
+- *country* - country to geocode
+- *city* - city to geocode **(MapQuest Only)**
 - *type* - map type
   - *bing*
     - road
