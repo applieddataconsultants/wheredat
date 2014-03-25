@@ -32,7 +32,7 @@
 
    var G = {
       geocode: function (address, country, city) {
-         if (!isMapQuest) jsonp('?countryCode='+country+'&q='+address)
+         if (!isMapQuest) jsonp('?countryCode='+(country || 'US')+'&q='+address)
          else {
             if (!country || !city) MQ.geocode().search(address).on('success', function(e) { window._wheredat_res(e.result.best) })
             else MQ.geocode().search({ country: country, address: address, city: city }).on('success', function (e) { window._wheredat_res(e.result.best) })
