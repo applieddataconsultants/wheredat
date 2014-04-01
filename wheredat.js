@@ -14,8 +14,8 @@
    var API_KEY = param('key')
 
    if (service === "mapquest") {
-      document.write('<script src="'+location.protocol+'//beta.mapquestapi.com/sdk/leaflet/v0.1/mq-map.js?key='+ API_KEY +'"><\/script>');
-      document.write('<script src="'+location.protocol+'//beta.mapquestapi.com/sdk/leaflet/v0.1/mq-geocoding.js?key='+ API_KEY +'"><\/script>')
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key='+ API_KEY +'"><\/script>');
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-geocoding.js?key='+ API_KEY +'"><\/script>')
 
       isMapQuest = true
    } else {
