@@ -19,6 +19,7 @@ var example = fs.readFileSync('example.html')
 var mapquestExample = fs.readFileSync('mapquest-example.html')
 
 var icons = {
+   '/img/layers.png': fs.readFileSync('./leaflet/img/layers.png'),
    '/img/marker.png': fs.readFileSync('./leaflet/img/marker.png'),
    '/img/marker-shadow.png': fs.readFileSync('./leaflet/img/marker-shadow.png'),
    '/img/popup-close.png': fs.readFileSync('./leaflet/img/popup-close.png'),
