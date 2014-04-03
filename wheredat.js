@@ -61,7 +61,8 @@
    var city = param('city')
 
    var freeze = param('freeze') === 'true' ? true : false
-   var type = param('type') || 'aerialwithlabels'
+   var type = param('type')
+   var layerSwitcher = param('layerSwitcher') === 'true' ? true : false
    var debug = param('debug') === 'true' ? true : false
    var marker = null
    var addressEl = null
@@ -72,6 +73,7 @@
    var sameDomain = null
    var map = null
    var lastLatLng = {}
+   var baseMaps = null
 
    var sendMessage = function (loc) {
       if (!parent) return
@@ -113,16 +115,33 @@
 
    alReady(function() {
       if (isMapQuest) {
+         var mapLayer = MQ.mapLayer()
+         var hybridLayer = MQ.hybridLayer()
+         var satelliteLayer = MQ.satelliteLayer()
+
          switch (type) {
-            case 'hybrid'    : layer = MQ.hybridLayer(); break
-            case 'satellite' : layer = MQ.satelliteLayer(); break
-            case 'road'      : layer = MQ.mapLayer(); break
-            default          : layer = MQ.hybridLayer();
+            case 'hybrid'    : layer = hybridLayer; break
+            case 'satellite' : layer = satelliteLayer; break
+            case 'road'      : layer = mapLayer; break
+            default          : layer = hybridLayer;
          }
+
          maxZoom = 17
+         baseMaps = { "Road": mapLayer, "Hybrid": hybridLayer, "Satellite": satelliteLayer }
       } else {
-         layer = new L.BingLayer(API_KEY, { type: type })
+         var bingRoad = new L.BingLayer(API_KEY, { type: 'road' })
+         var bingAerial = new L.BingLayer(API_KEY, { type: 'aerial' })
+         var bingAerialLabels = new L.BingLayer(API_KEY, { type: 'aerialwithlabels' })
+
+         switch (type) {
+            case 'road'             : layer = bingRoad; break
+            case 'aerial'           : layer = bingAerial; break
+            case 'aerialwithlabels' : layer = bingAerialLabels; break
+            default                 : layer = bingAerialLabels
+         }
+
          maxZoom = 18
+         baseMaps = { "Road": bingRoad, "Hybrid": bingAerialLabels, "Satellite": bingAerial }
       }
 
       addressEl = document.getElementById('address')
@@ -135,6 +154,8 @@
          opt.zoomControl = false
       }
       map = new L.Map('map', opt)
+      if (layerSwitcher) map.addControl(L.control.layers(baseMaps))
+
       if (address || city || country) G.geocode(address, country, city)
       else {
          G.reverseGeocode(lat,lon)

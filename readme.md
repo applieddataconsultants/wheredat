@@ -47,6 +47,9 @@ wheredat [port]
   - true
   - false (default)
 - *key* - Bing/MapQuest API key **(required)**
+- *layerSwitcher* - Enable layer switcher
+  - true
+  - false (default)
 - *service* - change map service to use mapquest
   - mapquest
   - bing (default)
