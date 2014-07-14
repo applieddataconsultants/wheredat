@@ -1,0 +1,15 @@
+{
+  "asi": true,
+  "node": true,
+  "undef": true,
+  "unused": "vars",
+  "browser": true,
+  "evil": true,
+  "eqnull": true,
+  "expr": true,
+  "globals": {
+    "L": true,
+    "MQ": true,
+    "alReady": true
+  }
+}

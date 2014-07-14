@@ -18,13 +18,15 @@
     "url": "git://github.com/applieddataconsultants/wheredat.git"
   },
   "scripts": {
-    "start": "nodemon -e html,js,png ."
+    "start": "nodemon -e html,js,png .",
+    "lint": "jshint server.js wheredat.js"
   },
   "main": "server.js",
   "engines": {
     "node": "*"
   },
   "devDependencies": {
+    "jshint": "^2.5.2",
     "nodemon": "^1.2.1"
   }
 }
