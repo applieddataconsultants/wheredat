@@ -19,7 +19,8 @@
   },
   "scripts": {
     "start": "nodemon -e html,js,png .",
-    "lint": "jshint server.js wheredat.js"
+    "lint": "jshint server.js wheredat.js",
+    "ci-lint": "jshint --reporter=checkstyle server.js wheredat.js > checkstyle.xml"
   },
   "main": "server.js",
   "engines": {
