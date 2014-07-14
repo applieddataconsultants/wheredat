@@ -64,6 +64,7 @@
    var type = param('type')
    var layerSwitcher = param('layerSwitcher') === 'true' ? true : false
    var debug = param('debug') === 'true' ? true : false
+
    var marker = null
    var addressEl = null
 
