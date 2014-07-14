@@ -2,14 +2,29 @@
   "author": "Marc Harter <wavded@gmail.com> (wavded.com)",
   "name": "wheredat",
   "description": "A simple, easy to use, geocoding interface for web applications",
-  "keywords": ["leaflet","geocode","bing","widget"],
+  "keywords": [
+    "leaflet",
+    "geocode",
+    "bing",
+    "widget"
+  ],
   "version": "0.5.0",
   "homepage": "http://wheredat.adc4gis.com",
-  "bin": { "wheredat": "server.js" },
+  "bin": {
+    "wheredat": "server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/applieddataconsultants/wheredat.git"
   },
+  "scripts": {
+    "start": "nodemon -e html,js,png ."
+  },
   "main": "server.js",
-  "engines": { "node": "*" }
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "nodemon": "^1.2.1"
+  }
 }
