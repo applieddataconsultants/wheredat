@@ -1,4 +1,4 @@
-## wheredat
+## wheredat [![Build Status](https://jenkins.adc4gis.com/buildStatus/icon?job=wheredat)](https://jenkins.adc4gis.com/view/Open%20Source/job/wheredat/)
 
 A simple, easy to use, geocoding interface for web applications
 
