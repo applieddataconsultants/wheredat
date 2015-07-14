@@ -14,8 +14,8 @@
    var API_KEY = param('key')
 
    if (service === "mapquest") {
-      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key='+ API_KEY +'"><\/script>');
-      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-geocoding.js?key='+ API_KEY +'"><\/script>')
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-map.js?key='+ API_KEY +'"><\/script>');
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-geocoding.js?key='+ API_KEY +'"><\/script>')
 
       isMapQuest = true
    } else {
@@ -34,6 +34,7 @@
       geocode: function (address, country, city) {
          if (!isMapQuest) jsonp('?countryCode='+(country || 'US')+'&q='+address)
          else {
+            address = address.replace(new RegExp('#', 'g'), 'no.')
             if (!country || !city) MQ.geocode().search(address).on('success', function(e) { window._wheredat_res(e.result.best) })
             else MQ.geocode().search({ country: country, street: address, city: city }).on('success', function (e) { window._wheredat_res(e.result.best) })
          }
