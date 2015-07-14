@@ -8,7 +8,7 @@
     "bing",
     "widget"
   ],
-  "version": "0.5.2",
+  "version": "0.5.3",
   "homepage": "http://wheredat.adc4gis.com",
   "bin": {
     "wheredat": "server.js"
