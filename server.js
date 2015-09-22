@@ -30,7 +30,7 @@ var icons = {
 var iecss = fs.readFileSync('./leaflet/leaflet-ie.css')
 
 http.createServer(function (req, res) {
-   if (req.url.match(/img/)) {
+   if (req.url.match(/\/img\//)) {
       res.writeHead(200, { 'Content-Type': 'image/png' })
       res.end(icons[req.url])
    }
