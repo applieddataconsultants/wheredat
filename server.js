@@ -17,6 +17,7 @@ function makeIndex() {
 var index = makeIndex()
 var example = fs.readFileSync('example.html')
 var mapquestExample = fs.readFileSync('mapquest-example.html')
+var mapboxExample = fs.readFileSync('mapbox-example.html')
 
 var icons = {
    '/img/layers.png': fs.readFileSync('./leaflet/img/layers.png'),
@@ -46,6 +47,8 @@ http.createServer(function (req, res) {
          res.end(example)
       else if (req.url === '/mapquest-example.html')
          res.end(mapquestExample)
+      else if (req.url === '/mapbox-example.html')
+         res.end(mapboxExample)
       else
          res.end(index)
    }
