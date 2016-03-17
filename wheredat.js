@@ -83,7 +83,7 @@
    }
 
    var Icon = L.icon({
-      iconUrl: '/img/marker.png',
+      iconUrl: isRetina ? 'img/marker-2x.png' : '/img/marker.png',
       shadowUrl: '/img/marker-shadow.png',
       iconSize: new L.Point(25, 41),
       shadowSize: new L.Point(41, 41),
