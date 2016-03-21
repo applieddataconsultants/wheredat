@@ -1,6 +1,8 @@
 !function _wheredat(){
    var BING_LOC_URL = 'https://dev.virtualearth.net/REST/v1/Locations/'
    var isMapQuest = false
+   var isMapbox = false
+   var isRetina = window.devicePixelRatio > 1
 
    function param (name) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]")
@@ -13,13 +15,16 @@
    var service = param('service')
    var API_KEY = param('key')
 
-   if (service === "mapquest") {
-      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-map.js?key='+ API_KEY +'"><\/script>');
-      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-geocoding.js?key='+ API_KEY +'"><\/script>')
+   if (service === 'mapquest') {
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-map.js?key='+API_KEY+'"><\/script>')
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-geocoding.js?key='+API_KEY+'"><\/script>')
 
       isMapQuest = true
-   } else {
-      isMapQuest = false
+   }
+
+   if (service === 'mapbox') {
+      document.write('<script src="'+location.protocol+'//api.mapbox.com/mapbox.js/v2.3.0/mapbox.js"><\/script>')
+      isMapbox = true
    }
 
    var tsjson = +new Date()
@@ -32,21 +37,53 @@
 
    var G = {
       geocode: function (address, country, city) {
-         if (!isMapQuest) jsonp('?countryCode='+(country || 'US')+'&q='+address)
+         if (isMapQuest) {
+            address = address.replace(new RegExp('#', 'g'), 'no.')
+
+            if (!country || !city) {
+               MQ.geocode().search(address)
+                  .on('success', function(e) {
+                     window._wheredat_res(e.result.best)
+                  })
+            }
+            else {
+               MQ.geocode().search({ country: country, street: address, city: city })
+                  .on('success', function (e) {
+                     window._wheredat_res(e.result.best)
+                  })
+            }
+         }
+         else if (isMapbox) {
+            var geocoder = L.mapbox.geocoder('mapbox.places')
+            geocoder.query(address, function (er, data) {
+               window._wheredat_res(data.results)
+            })
+         }
          else {
-            address = encodeURIComponent(address.replace(new RegExp('#', 'g'), 'no.'))
-            if (!country || !city) MQ.geocode().search(address).on('success', function(e) { window._wheredat_res(e.result.best) })
-            else MQ.geocode().search({ country: country, street: address, city: city }).on('success', function (e) { window._wheredat_res(e.result.best) })
+            jsonp('?countryCode='+(country || 'US')+'&q='+address)
          }
       },
       reverseGeocode: function (lat, lng) {
-         if (!isMapQuest) jsonp(lat + ',' + lng)
-         else MQ.geocode().reverse({lat:lat,lng:lng}).on('success', function (e) { window._wheredat_res(e.result.best) })
+         if (isMapQuest) {
+            MQ.geocode().reverse({ lat: lat, lng: lng })
+               .on('success', function (e) {
+                  window._wheredat_res(e.result.best)
+               })
+         }
+         else if (isMapbox) {
+            var geocoder = L.mapbox.geocoder('mapbox.places')
+            geocoder.reverseQuery({ lat: lat, lon: lng }, function (er, data) {
+               window._wheredat_res(data)
+            })
+         }
+         else {
+            jsonp(lat + ',' + lng)
+         }
       }
    }
 
    var Icon = L.icon({
-      iconUrl: '/img/marker.png',
+      iconUrl: isRetina ? 'img/marker-2x.png' : '/img/marker.png',
       shadowUrl: '/img/marker-shadow.png',
       iconSize: new L.Point(25, 41),
       shadowSize: new L.Point(41, 41),
@@ -82,15 +119,39 @@
 
       var data
       if (loc) {
-         data = {
-            lat: lastLatLng.lat || (!isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat),
-            lon: lastLatLng.lng || (!isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng),
-            geocodeLat: !isMapQuest ? loc.point.coordinates[0] : loc.latlng.lat,
-            geocodeLon: !isMapQuest ? loc.point.coordinates[1] : loc.latlng.lng,
-            address: !isMapQuest ? loc.name : buildAddressStr(loc),
-            bounds: !isMapQuest ? loc.bbox : [loc.latlng.lat, loc.latlng.lng, loc.latlng.lat, loc.latlng.lng]
+         if (isMapQuest) {
+            data = {
+               lat: lastLatLng.lat || loc.latlng.lat,
+               lon: lastLatLng.lng || loc.latlng.lng,
+               geocodeLat: loc.latlng.lat,
+               geocodeLon: loc.latlng.lng,
+               address: buildAddressStr(loc),
+               bounds: [loc.latlng.lat, loc.latlng.lng, loc.latlng.lat, loc.latlng.lng],
+               _mapquestObj: loc
+            }
          }
-         !isMapQuest ? data._bingObj = loc : data._mapquestObj = loc
+         else if (isMapbox) {
+            data = {
+               lat: lastLatLng.lat || loc.center[1],
+               lon: lastLatLng.lng || loc.center[0],
+               geocodeLat: loc.center[1],
+               geocodeLon: loc.center[0],
+               address: loc.place_name,
+               bounds: loc.bbox,
+               _mapboxObj: loc
+            }
+         }
+         else {
+            data = {
+               lat: lastLatLng.lat || loc.point.coordinates[0],
+               lon: lastLatLng.lng || loc.point.coordinates[1],
+               geocodeLat: loc.point.coordinates[0],
+               geocodeLon: loc.point.coordinates[1],
+               address: loc.name,
+               bounds: loc.bbox,
+               _bingObj: loc
+            }
+         }
       } else
          data = { error: 'wheredat was unable to geocode' }
 
@@ -130,7 +191,29 @@
 
          maxZoom = 17
          baseMaps = { "Road": mapLayer, "Hybrid": hybridLayer, "Satellite": satelliteLayer }
-      } else {
+      }
+      else if (isMapbox) {
+         var attr = '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+         var url = isRetina
+            ? location.protocol + '//api.mapbox.com/v4/{REPLACE}/{z}/{x}/{y}@2x.jpg?access_token='+API_KEY
+            : location.protocol + '//api.mapbox.com/v4/{REPLACE}/{z}/{x}/{y}.jpg?access_token='+API_KEY
+
+         L.mapbox.accessToken = API_KEY
+         var mapboxStreet = L.tileLayer(url.replace('{REPLACE}', 'mapbox.streets'), { attribution: attr })
+         var mapboxGrey = L.tileLayer(url.replace('{REPLACE}', 'mapbox.light'), { attribution: attr })
+         var mapboxSat = L.tileLayer(url.replace('{REPLACE}', 'mapbox.streets-satellite'), { attribution: attr })
+
+         switch (type) {
+            case 'street'    : layer = mapboxStreet; break
+            case 'grey'      : layer = mapboxGrey; break
+            case 'satellite' : layer = mapboxSat; break
+            default          : layer = mapboxSat;
+         }
+
+         maxZoom = 17
+         baseMaps = { Street: mapboxStreet, Greyscale: mapboxGrey, Aerial: mapboxSat }
+      }
+      else {
          var bingRoad = new L.BingLayer(API_KEY, { type: 'road' })
          var bingAerial = new L.BingLayer(API_KEY, { type: 'aerial' })
          var bingAerialLabels = new L.BingLayer(API_KEY, { type: 'aerialwithlabels' })
@@ -167,15 +250,22 @@
 
    window._wheredat_res = function (data) {
       try {
-         var loc = !isMapQuest ? data.resourceSets[0].resources[0] : data
+         var loc = !isMapQuest && !isMapbox ? data.resourceSets[0].resources[0] : data
          if (!loc) return sendMessage(null)
 
-         if (!isMapQuest) {
-            if (!marker) { createMarker(loc.point.coordinates) }
-            addressEl.innerHTML = loc.name
-         } else {
+         if (isMapQuest) {
             if (!marker) { createMarker([loc.latlng.lat, loc.latlng.lng]) }
             addressEl.innerHTML = loc.adminArea5 !== "" && loc.adminArea3 !== "" ? buildAddressStr(loc) : ""
+         }
+         else if (isMapbox) {
+            var feature = loc.features[0]
+            if (!marker) { createMarker(feature.center.reverse()) }
+            addressEl.innerHTML = feature.place_name
+            return sendMessage(feature)
+         }
+         else {
+            if (!marker) { createMarker(loc.point.coordinates) }
+            addressEl.innerHTML = loc.name
          }
 
          sendMessage(loc)

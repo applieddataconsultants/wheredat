@@ -7,7 +7,7 @@ A simple, easy to use, geocoding interface for web applications
 ### What is it?
 
 wheredat provides a geocoding and reverse geocoding interface (UI) through
-[Bing](http://www.microsoft.com/maps/developers/web.aspx) or [MapQuest](https://developer.mapquest.com/) maps.  You setup an
+[Bing](http://www.microsoft.com/maps/developers/web.aspx), [MapQuest](https://developer.mapquest.com/) or [Mapbox](https://www.mapbox.com/) maps.  You setup an
 instance of the application and then embed it in an iframe on any other
 applications that use it.  The client app passes an address or lonlat it needs
 geocoded and wheredat builds a map showing the location found allowing the user
@@ -43,16 +43,21 @@ wheredat [port]
     - road
     - satellite
     - hybrid (default)
+  - *mapbox*
+    - street
+    - grey
+    - satellite (default)
 - *freeze* - lock map, no dragging, zooming, panning
   - true
   - false (default)
-- *key* - Bing/MapQuest API key **(required)**
+- *key* - Bing/MapQuest/Mapbox API key **(required)**
 - *layerSwitcher* - Enable layer switcher
   - true
   - false (default)
 - *service* - change map service to use mapquest
   - mapquest
   - bing (default)
+  - mapbox
 
 ### Message Data
 
@@ -72,6 +77,7 @@ The data returned will look like:
    lon: -91.28829193115234,
    _mapquestObj: /* Original MapQuest Geocode Object (If using MapQuest) */
    _bingObj: /* Original Bing Geocode Object (If using Bing) */
+   _mapboxObj: /* Original Mapbox Geocode OBject (If using Mapbox) */
 }
 ```
 
@@ -91,6 +97,8 @@ whenever the point is moved or when the map is initially loaded).
 See [the demo page](http://wheredat.adc4gis.com/example.html) for an example of the Bing usage in a client side application.
 
 See [the demo page](http://wheredat.adc4gis.com/mapquest-example.html) for an example of the MapQuest usage in a client side application.
+
+See [the demo page](http://wheredat.adc4gis.com/mapbox-example.html) for an example of the Mapbox usage in a client side application.
 
 ## License
 
