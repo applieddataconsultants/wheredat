@@ -104,7 +104,7 @@ See [the demo page](http://wheredat.adc4gis.com/mapbox-example.html) for an exam
 
 (The MIT License)
 
-Copyright (c) 2014 Applied Data Consultants
+Copyright (c) 2016 Applied Data Consultants
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
