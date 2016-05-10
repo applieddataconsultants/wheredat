@@ -41,8 +41,10 @@ wheredat [port]
     - aerialwithlabels (default)
   - *mapquest*
     - road
-    - satellite
-    - hybrid (default)
+    - satellite (default)
+    - hybrid **DEPRECATED** (defaults to satellite)
+    - dark
+    - light
   - *mapbox*
     - street
     - grey

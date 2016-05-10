@@ -16,8 +16,8 @@
    var API_KEY = param('key')
 
    if (service === 'mapquest') {
-      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-map.js?key='+API_KEY+'"><\/script>')
-      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v1.s/mq-geocoding.js?key='+API_KEY+'"><\/script>')
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v2.s/mq-map.js?key='+API_KEY+'"><\/script>')
+      document.write('<script src="'+location.protocol+'//www.mapquestapi.com/sdk/leaflet/v2.s/mq-geocoding.js?key='+API_KEY+'"><\/script>')
 
       isMapQuest = true
    }
@@ -181,16 +181,31 @@
          var mapLayer = MQ.mapLayer()
          var hybridLayer = MQ.hybridLayer()
          var satelliteLayer = MQ.satelliteLayer()
+         var darkLayer = MQ.darkLayer()
+         var lightLayer = MQ.lightLayer()
 
          switch (type) {
-            case 'hybrid'    : layer = hybridLayer; break
-            case 'satellite' : layer = satelliteLayer; break
-            case 'road'      : layer = mapLayer; break
-            default          : layer = hybridLayer;
+            case 'hybrid':
+            case 'satellite':
+               layer = satelliteLayer
+               break
+
+            case 'road':
+               layer = mapLayer
+               break
+
+            case 'dark':
+               layer = darkLayer
+
+            case 'light':
+               layer = lightLayer
+
+            default:
+               layer = satelliteLayer;
          }
 
          maxZoom = 17
-         baseMaps = { "Road": mapLayer, "Hybrid": hybridLayer, "Satellite": satelliteLayer }
+         baseMaps = { "Road": mapLayer, "Satellite": satelliteLayer, "Dark": darkLayer, "Light": lightLayer }
       }
       else if (isMapbox) {
          var attr = '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
